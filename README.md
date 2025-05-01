@@ -16,7 +16,7 @@ A simple Django application for managing personal notes.
 ## Technologies
 
 - Backend: Django, Python
-- Database: MySQL
+- Database: SQLite
 - Frontend: Bootstrap
 - API: Django REST Framework
 
@@ -35,19 +35,15 @@ A simple Django application for managing personal notes.
    pip install -r requirements.txt
    ```
 5. Create a `.env` file in the project root and configure it based on `env_settings.py`
-6. Create the MySQL database:
-   ```
-   CREATE DATABASE notes_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-   ```
-7. Run migrations:
+6. Run migrations:
    ```
    python manage.py migrate
    ```
-8. Create a superuser:
+7. Create a superuser:
    ```
    python manage.py createsuperuser
    ```
-9. Run the server:
+8. Run the server:
    ```
    python manage.py runserver
    ```

@@ -5,7 +5,7 @@
 * Python 3.8+
 * pip
 * virtualenv (optional but recommended)
-* MySQL/MariaDB or SQLite
+* SQLite (included with Python)
 
 ## Installation Steps
 
@@ -48,11 +48,6 @@ Create a `.env` file in the project root and add the following parameters:
 SECRET_KEY=your-secret-key
 DEBUG=True
 DATABASE_URL=sqlite:///db.sqlite3
-```
-
-For MySQL/MariaDB:
-```
-DATABASE_URL=mysql://user:password@localhost:3306/dbname
 ```
 
 ### 6. Run database migrations
