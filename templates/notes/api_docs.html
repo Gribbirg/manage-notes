@@ -1,0 +1,309 @@
+{% extends 'base.html' %}
+
+{% block title %}API Documentation - Notes Manager{% endblock %}
+
+{% block extra_css %}
+<style>
+    pre {
+        background-color: #f8f9fa;
+        border-radius: 4px;
+        padding: 10px;
+        overflow-x: auto;
+    }
+    .endpoint {
+        border-left: 4px solid var(--primary-color);
+        padding-left: 15px;
+        margin-bottom: 20px;
+    }
+    .method {
+        font-weight: bold;
+        padding: 3px 8px;
+        border-radius: 4px;
+        display: inline-block;
+        margin-right: 10px;
+    }
+    .method-get {
+        background-color: var(--primary-color);
+        color: white;
+    }
+    .method-post {
+        background-color: var(--primary-light);
+        color: white;
+    }
+    .method-put {
+        background-color: var(--accent-color);
+        color: white;
+    }
+    .method-delete {
+        background-color: var(--danger-color);
+        color: white;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-3">
+        <div class="card mb-4">
+            <div class="card-header card-header-primary">
+                <h5 class="mb-0">API Contents</h5>
+            </div>
+            <div class="card-body">
+                <div class="list-group">
+                    <a href="#introduction" class="list-group-item list-group-item-action">Introduction</a>
+                    <a href="#authentication" class="list-group-item list-group-item-action">Authentication</a>
+                    <a href="#notes" class="list-group-item list-group-item-action">Notes API</a>
+                    <a href="#categories" class="list-group-item list-group-item-action">Categories API</a>
+                    <a href="#tags" class="list-group-item list-group-item-action">Tags API</a>
+                    <a href="#examples" class="list-group-item list-group-item-action">Usage Examples</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-9">
+        <div class="card">
+            <div class="card-header card-header-primary">
+                <h4 class="mb-0">API Documentation</h4>
+            </div>
+            <div class="card-body">
+                <section id="introduction" class="mb-5">
+                    <h2>Introduction</h2>
+                    <p>The Notes Manager API provides programmatic access to your notes, categories, and tags. You can use this API to integrate your notes with other applications or automate tasks.</p>
+                    <p>All API endpoints return data in JSON format and require authentication.</p>
+                    <p>Base URL: <code>{{ request.scheme }}://{{ request.get_host }}/api/</code></p>
+                </section>
+                
+                <section id="authentication" class="mb-5">
+                    <h2>Authentication</h2>
+                    <p>The API uses session-based authentication. You must be logged in to use the API. If you're accessing the API from a browser where you're already logged in to Notes Manager, you'll be automatically authenticated.</p>
+                    <p>For programmatic access, you'll need to include the session cookie in your requests.</p>
+                </section>
+                
+                <section id="notes" class="mb-5">
+                    <h2>Notes API</h2>
+                    
+                    <div class="endpoint">
+                        <h5><span class="method method-get">GET</span> /api/notes/</h5>
+                        <p>List all notes.</p>
+                        <p><strong>Query Parameters:</strong></p>
+                        <ul>
+                            <li><code>category</code> - Filter by category ID</li>
+                            <li><code>tag</code> - Filter by tag ID</li>
+                            <li><code>search</code> - Search in title and content</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="endpoint">
+                        <h5><span class="method method-post">POST</span> /api/notes/</h5>
+                        <p>Create a new note.</p>
+                        <p><strong>Request Body:</strong></p>
+<pre>
+{
+  "title": "Note Title",
+  "content": "Note content...",
+  "category": 1,
+  "tags_list": [1, 2, 3]
+}
+</pre>
+                    </div>
+                    
+                    <div class="endpoint">
+                        <h5><span class="method method-get">GET</span> /api/notes/{id}/</h5>
+                        <p>Retrieve a specific note.</p>
+                    </div>
+                    
+                    <div class="endpoint">
+                        <h5><span class="method method-put">PUT</span> /api/notes/{id}/</h5>
+                        <p>Update a note.</p>
+                        <p><strong>Request Body:</strong></p>
+<pre>
+{
+  "title": "Updated Title",
+  "content": "Updated content...",
+  "category": 2,
+  "tags_list": [1, 4]
+}
+</pre>
+                    </div>
+                    
+                    <div class="endpoint">
+                        <h5><span class="method method-delete">DELETE</span> /api/notes/{id}/</h5>
+                        <p>Delete a note.</p>
+                    </div>
+                    
+                    <div class="endpoint">
+                        <h5><span class="method method-get">GET</span> /api/notes/stats/</h5>
+                        <p>Get statistics about your notes.</p>
+                    </div>
+                </section>
+                
+                <section id="categories" class="mb-5">
+                    <h2>Categories API</h2>
+                    
+                    <div class="endpoint">
+                        <h5><span class="method method-get">GET</span> /api/categories/</h5>
+                        <p>List all categories.</p>
+                    </div>
+                    
+                    <div class="endpoint">
+                        <h5><span class="method method-post">POST</span> /api/categories/</h5>
+                        <p>Create a new category.</p>
+                        <p><strong>Request Body:</strong></p>
+<pre>
+{
+  "name": "Category Name"
+}
+</pre>
+                    </div>
+                    
+                    <div class="endpoint">
+                        <h5><span class="method method-get">GET</span> /api/categories/{id}/</h5>
+                        <p>Retrieve a specific category.</p>
+                    </div>
+                    
+                    <div class="endpoint">
+                        <h5><span class="method method-put">PUT</span> /api/categories/{id}/</h5>
+                        <p>Update a category.</p>
+                        <p><strong>Request Body:</strong></p>
+<pre>
+{
+  "name": "Updated Category Name"
+}
+</pre>
+                    </div>
+                    
+                    <div class="endpoint">
+                        <h5><span class="method method-delete">DELETE</span> /api/categories/{id}/</h5>
+                        <p>Delete a category.</p>
+                    </div>
+                </section>
+                
+                <section id="tags" class="mb-5">
+                    <h2>Tags API</h2>
+                    
+                    <div class="endpoint">
+                        <h5><span class="method method-get">GET</span> /api/tags/</h5>
+                        <p>List all tags.</p>
+                    </div>
+                    
+                    <div class="endpoint">
+                        <h5><span class="method method-post">POST</span> /api/tags/</h5>
+                        <p>Create a new tag.</p>
+                        <p><strong>Request Body:</strong></p>
+<pre>
+{
+  "name": "Tag Name"
+}
+</pre>
+                    </div>
+                    
+                    <div class="endpoint">
+                        <h5><span class="method method-get">GET</span> /api/tags/{id}/</h5>
+                        <p>Retrieve a specific tag.</p>
+                    </div>
+                    
+                    <div class="endpoint">
+                        <h5><span class="method method-put">PUT</span> /api/tags/{id}/</h5>
+                        <p>Update a tag.</p>
+                        <p><strong>Request Body:</strong></p>
+<pre>
+{
+  "name": "Updated Tag Name"
+}
+</pre>
+                    </div>
+                    
+                    <div class="endpoint">
+                        <h5><span class="method method-delete">DELETE</span> /api/tags/{id}/</h5>
+                        <p>Delete a tag.</p>
+                    </div>
+                </section>
+                
+                <section id="examples" class="mb-5">
+                    <h2>Usage Examples</h2>
+                    
+                    <h5>Python Example (using requests library):</h5>
+<pre>
+import requests
+
+# Login first to get session cookie
+session = requests.Session()
+login_data = {
+    'username': 'your_username',
+    'password': 'your_password'
+}
+session.post('{{ request.scheme }}://{{ request.get_host }}/accounts/login/', data=login_data)
+
+# Get all notes
+response = session.get('{{ request.scheme }}://{{ request.get_host }}/api/notes/')
+notes = response.json()
+print(notes)
+
+# Create a new note
+new_note = {
+    'title': 'API Created Note',
+    'content': 'This note was created using the API',
+    'category': 1
+}
+response = session.post('{{ request.scheme }}://{{ request.get_host }}/api/notes/', json=new_note)
+print(response.json())
+</pre>
+
+                    <h5>JavaScript Example (using fetch):</h5>
+<pre>
+// Get CSRF token from cookie
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+// Get all notes
+fetch('{{ request.scheme }}://{{ request.get_host }}/api/notes/', {
+    method: 'GET',
+    headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': getCookie('csrftoken')
+    },
+    credentials: 'same-origin'
+})
+.then(response => response.json())
+.then(data => console.log(data))
+.catch(error => console.error('Error:', error));
+
+// Create a new note
+const newNote = {
+    title: 'API Created Note',
+    content: 'This note was created using the API',
+    category: 1
+};
+
+fetch('{{ request.scheme }}://{{ request.get_host }}/api/notes/', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': getCookie('csrftoken')
+    },
+    body: JSON.stringify(newNote),
+    credentials: 'same-origin'
+})
+.then(response => response.json())
+.then(data => console.log(data))
+.catch(error => console.error('Error:', error));
+</pre>
+                </section>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ note.title }} - Notes Manager{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-10">
+        <div class="card shadow">
+            <div class="card-header card-header-primary d-flex justify-content-between align-items-center">
+                <h3 class="mb-0">{{ note.title }}</h3>
+                <div>
+                    <a href="{% url 'notes:edit' note.id %}" class="btn btn-light btn-sm">
+                        <i class="fas fa-edit me-1"></i>Edit
+                    </a>
+                    <a href="{% url 'notes:delete' note.id %}" class="btn btn-danger btn-sm">
+                        <i class="fas fa-trash-alt me-1"></i>Delete
+                    </a>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="mb-4">
+                    <div class="text-muted mb-4">
+                        <small>
+                            <i class="fas fa-clock me-1"></i>Created: {{ note.created_at|date:"F j, Y, g:i a" }}
+                            <br>
+                            <i class="fas fa-edit me-1"></i>Last updated: {{ note.updated_at|date:"F j, Y, g:i a" }}
+                        </small>
+                    </div>
+                    
+                    {% if note.category %}
+                    <div class="mb-3">
+                        <strong>Category:</strong>
+                        <a href="{% url 'notes:list' %}?category={{ note.category.id }}" class="category-pill badge text-decoration-none">
+                            {{ note.category.name }}
+                        </a>
+                    </div>
+                    {% endif %}
+                    
+                    {% if note.tags.all %}
+                    <div class="mb-3">
+                        <strong>Tags:</strong>
+                        {% for tag in note.tags.all %}
+                        <a href="{% url 'notes:list' %}?tags={{ tag.id }}" class="tag-badge badge text-decoration-none">
+                            {{ tag.name }}
+                        </a>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+                
+                <div class="border-top pt-4">
+                    <div class="note-content">
+                        {{ note.content|linebreaks }}
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <a href="{% url 'notes:list' %}" class="btn btn-outline-primary">
+                    <i class="fas fa-arrow-left me-1"></i>Back to Notes
+                </a>
+                <a href="{% url 'notes:export_pdf' %}?id={{ note.id }}" class="btn btn-outline-primary float-end">
+                    <i class="fas fa-file-pdf me-1"></i>Export as PDF
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

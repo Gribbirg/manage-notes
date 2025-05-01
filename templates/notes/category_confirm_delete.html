@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}Delete Category - Notes Manager{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow">
+            <div class="card-header bg-danger text-white">
+                <h4 class="mb-0">Delete Category</h4>
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Are you sure you want to delete category "{{ category.name }}"?</h5>
+                
+                {% if category.notes.count > 0 %}
+                <div class="alert alert-warning">
+                    <i class="fas fa-exclamation-triangle me-2"></i>This category contains {{ category.notes.count }} note{{ category.notes.count|pluralize }}. 
+                    Deleting it will remove the category from these notes.
+                </div>
+                {% endif %}
+                
+                <p class="card-text text-muted">This action cannot be undone.</p>
+                
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="d-flex justify-content-between">
+                        <a href="{% url 'notes:category_list' %}" class="btn btn-outline-secondary">
+                            <i class="fas fa-times me-1"></i>Cancel
+                        </a>
+                        <button type="submit" class="btn btn-danger">
+                            <i class="fas fa-trash-alt me-1"></i>Delete
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

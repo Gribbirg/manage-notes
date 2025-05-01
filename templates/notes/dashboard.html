@@ -1,0 +1,155 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard - Notes Manager{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-12">
+        <h2>Dashboard</h2>
+        <p class="text-muted">Welcome to your Notes Dashboard!</p>
+    </div>
+</div>
+
+<!-- Stats cards -->
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="card dashboard-card text-white h-100" style="background-color: var(--primary-color);">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h5 class="card-title">Total Notes</h5>
+                        <h2 class="display-4">{{ notes_count }}</h2>
+                    </div>
+                    <i class="fas fa-sticky-note fa-3x opacity-50"></i>
+                </div>
+            </div>
+            <div class="card-footer d-flex align-items-center justify-content-between">
+                <a href="{% url 'notes:list' %}" class="text-white text-decoration-none">View Notes</a>
+                <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card dashboard-card text-white h-100" style="background-color: var(--primary-light);">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h5 class="card-title">Categories</h5>
+                        <h2 class="display-4">{{ categories_count }}</h2>
+                    </div>
+                    <i class="fas fa-folder fa-3x opacity-50"></i>
+                </div>
+            </div>
+            <div class="card-footer d-flex align-items-center justify-content-between">
+                <a href="{% url 'notes:category_list' %}" class="text-white text-decoration-none">Manage Categories</a>
+                <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card dashboard-card text-white h-100" style="background-color: var(--accent-color);">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h5 class="card-title">Tags</h5>
+                        <h2 class="display-4">{{ tags_count }}</h2>
+                    </div>
+                    <i class="fas fa-tags fa-3x opacity-50"></i>
+                </div>
+            </div>
+            <div class="card-footer d-flex align-items-center justify-content-between">
+                <a href="{% url 'notes:tag_list' %}" class="text-white text-decoration-none">View Tags</a>
+                <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Recent notes and top categories -->
+<div class="row">
+    <div class="col-md-8">
+        <div class="card mb-4">
+            <div class="card-header card-header-primary">
+                <i class="fas fa-history me-1"></i>
+                Recent Notes
+            </div>
+            <div class="card-body">
+                {% if recent_notes %}
+                    <div class="list-group">
+                        {% for note in recent_notes %}
+                        <a href="{% url 'notes:detail' note.id %}" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">{{ note.title }}</h5>
+                                <small>{{ note.updated_at|date:"M d, Y" }}</small>
+                            </div>
+                            <p class="mb-1 text-truncate">{{ note.content }}</p>
+                            {% if note.category %}
+                            <small class="text-muted">
+                                <i class="fas fa-folder me-1"></i>{{ note.category.name }}
+                            </small>
+                            {% endif %}
+                        </a>
+                        {% endfor %}
+                    </div>
+                    <div class="text-center mt-3">
+                        <a href="{% url 'notes:list' %}" class="btn btn-outline-primary">View All Notes</a>
+                    </div>
+                {% else %}
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle me-2"></i>You don't have any notes yet. 
+                        <a href="{% url 'notes:create' %}" class="alert-link">Create your first note</a>.
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card mb-4">
+            <div class="card-header card-header-primary">
+                <i class="fas fa-chart-pie me-1"></i>
+                Top Categories
+            </div>
+            <div class="card-body">
+                {% if top_categories %}
+                    <div class="list-group">
+                        {% for category in top_categories %}
+                        <a href="{% url 'notes:category_detail' category.id %}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                            {{ category.name }}
+                            <span class="badge badge-primary rounded-pill">{{ category.notes_count }}</span>
+                        </a>
+                        {% endfor %}
+                    </div>
+                    <div class="text-center mt-3">
+                        <a href="{% url 'notes:category_list' %}" class="btn btn-outline-primary">View All Categories</a>
+                    </div>
+                {% else %}
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle me-2"></i>You don't have any categories yet. 
+                        <a href="{% url 'notes:category_create' %}" class="alert-link">Create your first category</a>.
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header card-header-primary">
+                <i class="fas fa-plus me-1"></i>
+                Quick Actions
+            </div>
+            <div class="card-body">
+                <div class="d-grid gap-2">
+                    <a href="{% url 'notes:create' %}" class="btn btn-primary">
+                        <i class="fas fa-plus me-1"></i>New Note
+                    </a>
+                    <a href="{% url 'notes:category_create' %}" class="btn btn-primary">
+                        <i class="fas fa-folder-plus me-1"></i>New Category
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

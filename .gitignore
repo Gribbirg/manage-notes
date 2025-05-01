@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.log
+
+# Django
+db.sqlite3
+db.sqlite3-journal
+notes_db
+staticfiles/
+
+# Virtual Environment
+venv/
+ENV/
+
+# Environment variables
+.env
+
+# IDE
+.idea/
+.vscode/
+
+# Media files
+media/
+
+# Local development settings
+local_settings.py 

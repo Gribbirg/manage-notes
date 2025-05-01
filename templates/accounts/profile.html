@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}Profile - Notes Manager{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <div class="card shadow">
+            <div class="card-header card-header-primary">
+                <h4 class="mb-0">User Profile</h4>
+            </div>
+            <div class="card-body">
+                <div class="row mb-4">
+                    <div class="col-md-3 text-center">
+                        <div class="profile-img">
+                            <i class="fas fa-user-circle fa-6x text-primary"></i>
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <h3>{{ user.username }}</h3>
+                        <p class="text-muted">{{ user.email }}</p>
+                        
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <p><strong>Account Type:</strong> 
+                                    {% if user.profile.is_admin %}Admin{% else %}Regular User{% endif %}
+                                </p>
+                                <p><strong>Joined:</strong> {{ user.date_joined|date:"F j, Y" }}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <p><strong>Notes:</strong> {{ user.notes.count }}</p>
+                                <p><strong>Categories:</strong> {{ user.categories.count }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="d-grid gap-2 col-6 mx-auto">
+                    <a href="#" class="btn btn-outline-primary">Edit Profile</a>
+                    <a href="{% url 'accounts:logout' %}" class="btn btn-outline-danger">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 
