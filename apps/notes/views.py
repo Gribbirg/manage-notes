@@ -525,8 +525,12 @@ def export_notes(request, format='pdf'):
         return HttpResponse('Only PDF export is supported.', status=400)
     
     # Ensure we have notes to export
-    if not notes.exists():
-        return HttpResponse('No notes to export.', status=404)
+    if isinstance(notes, list):
+        if not notes:
+            return HttpResponse('No notes to export.', status=404)
+    else:
+        if not notes.exists():
+            return HttpResponse('No notes to export.', status=404)
     
     # Create a buffer for the PDF
     buffer = io.BytesIO()
