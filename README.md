@@ -2,6 +2,8 @@
 
 A simple Django application for managing personal notes.
 
+http://84.252.129.73
+
 ## Features
 
 - User authentication (local and Yandex OAuth)
